@@ -783,9 +783,48 @@ Vue.component('todo-item', {
           }
         }
       })
-
-
 ```
+### 事件处理
+#### 监听DOM事件可以用vue中的指令v-on,触发指令时运行一些代码.
+```html
+    <div id="app">
+        <button v-on:click="btnClick">点击</button>
+        <p>按钮点击加一: {{counter}}</p>
+    </div>
+```
+```javascript
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            counter: 0
+        },
+        methods: {
+            btnClick: function(){
+                this.counter += 1
+            }
+        }
+    })
+```
+#### 有时候需要在内联语句中访问原始的DOM事件,可以使用vue提供的特殊变量 ==$event== 把他传入方法.
+```html
+    <div id="app">
+        <button v-on:click="btnClick('i am b', $event)">submit</button>
+    </div>
+```
+```javascript
+    //上面的代码就省略了...
+    methods: {
+        btnClick: function(message, event){
+            //这样我们就可以在这里访问原生事件对象了
+            if(event){
+                //取消该对象的默认事件
+                event.preventDefault()
+            }
+            console.log(message)
+        }
+    }
+```
+#### 事件的修饰符
 
 
 
