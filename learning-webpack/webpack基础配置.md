@@ -55,7 +55,7 @@ externals: {
 - 2.html文件引入jQuery cdn加速
 #### 官方文档中的entry只有一个js,有多个时该这么处理?
 - webpack对单个js文件的加载
-```
+```javascript
 var config = {
   entry: './src/page/index/index.js',
   output: {
@@ -87,7 +87,7 @@ module.exports = config;
 
 #### 我想提取工共模块,该这么处理?
 - 通过插件CommonsChunkPlugin
-```
+```javascript
 // webpack.config.js中配置
 var webpack = require('webpack');
 plugins: [//接收一个数组
@@ -104,7 +104,7 @@ plugins: [//接收一个数组
 
 #### webpack对样式的处理
 
-```
+```javascript
 //插件用的extract-text-webpack-plugin,之前安装的是最新的版本,执行webpack报错,后来选择的extract-text-webpack-plugin1.0.1的.执行OK
 module: {
     loaders: [
@@ -127,7 +127,7 @@ loaders: [
 ```
 #### webpack对html模板的处理
 
-```
+```javascript
 //使用插件html-webpack-plugin
 plugins:[
     new HtmlWebpackPlugin({

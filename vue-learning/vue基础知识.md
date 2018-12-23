@@ -825,10 +825,87 @@ Vue.component('todo-item', {
     }
 ```
 #### 事件的修饰符
+#### 事件处理程序中经常调用 ==event.preventDefault()== 和 ==event.stopPropagation()==.在方法中可以轻松的实现这些,但是又更好的方法:只有纯粹的数据逻辑,而不是处理DOM事件.为了呢,vue.js为 ==v-on== 指令中提供了 ==修饰符== .以下修饰符是在点开头的后缀来表示.
+- ==.stop==
+- ==.prevent==
+- ==.self==
+- ==.once==
+- ==.capture==
+- ==.passive==
+```html
+    <!-- 阻止单击事件继续 -->
+    <button v-on:click.stop="doThis">submit</button>
+    <!-- 提交事件不再重载页面 -->
+    <form v-on:submit.prevent="onSubmit"></form>
+    <!-- 修饰符可以串联 -->
+    <button v-on:click.stop.prevent="doThis">submit</button>
+    <!-- 只有修饰符 -->
+    <form v-on:click.stop.prevent></form>
 
+    <!-- 添加事件监听器时使用事件捕捉模式 -->
+    <!-- 即元素姿势触发得事件在此处理,然后再提交内部元素处理 -->
+    <div v-on:click.capture="doThis"></div>
 
+    <!-- 只是再当event.target 是当前元素自身出发时处理触发函数 -->
+    <!-- 即事件不是从内部元素出发的 -->
+    <div v-on:click.self="doThis"></div>
 
+    <!-- 点击事件将只会触发一次 -->
+    <!-- .once 还可以被用到自定义得组件事件上 -->
+    <a v-on:click.once="doThis"></a>
+```
+#### == 使用修饰符得顺序很重要,相应得代码会以同样得顺序产生.顺序不同产生得事件也就不同!用v-on:click.prevent.self 是会阻止所有得点击事件,而v-on:click.self.prevent 只会阻止对元素自身得点击.
 
+#### Vue还对应的 ==addEventListener== 中的 ==passive== 选项提供了 ==.passive==修饰符
+```html
+    <!-- 滚动的事件的默认行为(滚动行为)将会立即触发 -->
+    <!-- 而且不会等待'onScroll'完成 -->
+    <!-- 其中包含'event.preventDefault()'事件 -->
+    <div v-on:scroll.passive="onScroll"></div>
+```
+#### 这个 ==.passive==修饰符还会提升移动端的性能
+#### 不要把 ==.passive== 和 ==.prevent== 一起使用,这是因为 ==.prevent==会被忽略.同时浏览器可能会向你展示警告. ==.passive== 会高速浏览器你不想阻止的默认行为!
 
+### 按键修饰符
+#### vue在对键盘的事件监听也添加的修饰符.比如以下:
+```html
+    <!-- 只有在keycode 是 13 的时候才调用 vm.submit() -->
+    <div v-on:keyup.13="submit"></div>
+```
+#### 记住的所有的 ==keycode== 比较困难,Vue提供了比较常用的别名:
+```html
+    <input v-on:keyup.enter="submit">
+    <!-- 缩写 -->
+    <input @keyup.enter="submit">
+```
+#### Vue提供比较常用的别名
+- ==.enter==
+- ==.tab==
+- ==.delete==(捕获删除或退格)
+- ==.esc==
+- ==.space==
+- ==.up==
+- ==.down==
+- ==.lef==
+- ==.right==
+#### 可以通过全局的 ==config.keyCodes== 来自定义按键修饰符别名:
+```javascript
+    //可以使用 'v-on:keyup.f1'
+    Vue.config.keyCode.f1 = 112
+```
+#### 表单绑定
+```html
+    <!-- 表单修饰符 -->
+    <!-- .lazy 默认情况下,v-model在每次input事件触发后将输入的框的值与数据进行同步.你可以加.lazy修饰符,使用change事件进行同步 -->
+    <!-- 在change事件改变而非input时 -->
+    <input type="text" v-model.lazy="massage">
 
+    <!-- .number -->
+    <!-- 如果想自动将用户输入的值转为数值类型,就是哦那个'.number'修饰符 -->
+    <input type="number" v-model.number="age">
 
+```
+
+    
+
+    
