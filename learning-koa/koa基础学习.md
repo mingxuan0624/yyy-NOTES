@@ -41,8 +41,11 @@ app.use( async(ctx) => {
 
 //进行监听
 app.listen(3000);
-console.log('app is strating at port 3000')
+console.log('app is strating at port 3000');
 ```
+
+#### 二.async/await的使用方法
+##### 
 ```javascript
 
 
