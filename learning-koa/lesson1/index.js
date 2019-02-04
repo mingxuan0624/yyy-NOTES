@@ -5,8 +5,9 @@ const Koa = require('koa');
 const app = new Koa();
 
 //对于任何请求,app将调用async异步函数来处理请求.
+//ctx
 app.use( async(ctx) => {
-    ctx.body = 'It is my first koa page!'
+    ctx.response.body = 'It is my first koa page!'
 })
 
 //进行监听
